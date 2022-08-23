@@ -10,6 +10,8 @@ face_cascade = cv2.CascadeClassifier (classifierFile)
 finalWidth = 150
 finalHeight = 200
 
+imageScale = 0.75
+
 dataPath = 'datasets'
 student = ''	#name for current student
 
@@ -19,6 +21,9 @@ def emptyDirectory (path) :
 	for root, directories, files in os.walk (path) :
 		for f in files :
 			os.remove (os.path.join (root, f))
+
+if (not os.path.isdir (dataPath)) :
+	os.mkdir (dataPath)
 
 while True :
 	student = input ("Enter name of current Student: ")
@@ -37,13 +42,13 @@ while True :
 	# show rectangle around face as a marker
 	while (True) :
 		(_, im) = webcam.read ()
-		im = cv2.resize (im, (int (im.shape[1] * 0.5), int (im.shape[0] * 0.5)))
+		im = cv2.resize (im, (int (im.shape[1] * imageScale), int (im.shape[0] * imageScale)))
 		gray = cv2.cvtColor (im, cv2.COLOR_BGR2GRAY)
 
 		currentFacesCoordinates = face_cascade.detectMultiScale (gray, 1.3, 4)
 
 		for (x, y, w, h) in currentFacesCoordinates:
-			cv2.rectangle (im, (x, y), (x + w, y + h), 20)
+			cv2.rectangle (im, (x, y), (x + w, y + h), 100, 2)
 		cv2.imshow ('face', im)
 		k = cv2.waitKey (1)
 		if (k == ord (' ')) :
@@ -51,7 +56,7 @@ while True :
 
 	for i in range (5): 
 		(_, im) = webcam.read ()
-		im = cv2.resize (im, (int (im.shape[1] * 0.5), int (im.shape[0] * 0.5)))
+		im = cv2.resize (im, (int (im.shape[1] * imageScale), int (im.shape[0] * imageScale)))
 		gray = cv2.cvtColor (im, cv2.COLOR_BGR2GRAY)
 
 		currentFacesCoordinates = face_cascade.detectMultiScale (gray, 1.3, 4)
