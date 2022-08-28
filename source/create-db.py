@@ -1,38 +1,25 @@
 import cv2
 import os
 import numpy
+import sys
 
-# helper functions defined in the same directory
-from filehelpers import *
-from facehelpers import *
+from helpers.filehelpers import *
+from helpers.facehelpers import *
 
-# custom file
-#import trainer
-
-faceDetectionScale = 1.2
-neighbouringPixels = 10
-
-cam_port = 0
-
-processingScale = 0.75
-classifierFile = os.path.join ("opencv-files", "haarcascade_frontalface_default.xml")
+from globalvars import *
 
 rollNo = 0
 studentName = ""
-recordFileName = "data_10A.rec"
-dataDirectory = "datasets"
-
-recordFilePath = os.path.join (os.getcwd (), recordFileName)
-dataPath = os.path.join (os.getcwd (), dataDirectory)
 
 def main () :
 	classifier = cv2.CascadeClassifier (classifierFile)
-	camera = cv2.VideoCapture (cam_port)
+	camera = cv2.VideoCapture (camPort)
 
-	moreToAdd = True
-	while True:
+	moreToAdd = 'Y'
+
+	while moreToAdd[0] == 'Y' or moreToAdd[0] == 'y':
 		studentName = input ("Enter the Student's Name: ")
-		rollNo = int (input ("Enter the Student's Roll Number: "))
+		rollNo = int (input ("Enter the Student's Roll Number (-1 to cancel this entry) :"))
 
 		if (recordExists (rollNo, recordFilePath)) :
 			choiceToEraseRecord = input (f"Roll No. {rollNo} already exists, overWrite (y/N) ? ").upper ()
@@ -41,11 +28,17 @@ def main () :
 			else :
 				continue
 
+		# provide a way to undo the last entry
+		elif (rollNo == -1):
+			print ("Recieved -1 as roll no, skipping entry")
+			moreToAdd = input ("Do you want to add more Students? (y/N): ")
+			continue
+
 		# keep showing detected faces
 		while True :
 			_, frame = camera.read ()
 			# resize image for easier processing
-			frame = cv2.resize (frame, (int (frame.shape[1] * processingScale), int (frame.shape[0] * processingScale)))
+			frame = cv2.resize (frame, (int (frame.shape[1] * imageProcessingScale), int (frame.shape[0] * imageProcessingScale)))
 			# processing done in grayscale
 			grayFrame = cv2.cvtColor (frame, cv2.COLOR_BGR2GRAY)
 	
@@ -64,13 +57,9 @@ def main () :
 		cv2.destroyAllWindows ()
 		
 		addRecord (rollNo, studentName, recordFilePath)
-		capturedFaces = captureFacesFromCamera (camera, processingScale, classifier, faceDetectionScale, neighbouringPixels)
+		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels)
 		writeFaces (capturedFaces, rollNo, dataPath)
 		
 		moreToAdd = input ("Do you want to add more Students? (y/N): ")
-
-		# indexes to ensure functioning even if the entire word is typed
-		if (moreToAdd != "y" and moreToAdd != "Y") :
-			break
 
 main ()
