@@ -15,7 +15,7 @@ neighbouringPixels = 10
 cam_port = 0
 
 processingScale = 0.75
-classifierFile = "opencv-files/haarcascade_frontalface_default.xml"
+classifierFile = os.path.join ("opencv-files", "haarcascade_frontalface_default.xml")
 
 rollNo = 0
 studentName = ""
