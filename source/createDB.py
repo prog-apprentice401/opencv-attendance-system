@@ -15,12 +15,12 @@ neighbouringPixels = 10
 cam_port = 0
 
 processingScale = 0.75
-classifierFile = 'opencv-files/haarcascade_frontalface_default.xml'
+classifierFile = "opencv-files/haarcascade_frontalface_default.xml"
 
 rollNo = 0
-studentName = ''
-recordFileName = 'data_10A.rec'
-dataDirectory = 'datasets'
+studentName = ""
+recordFileName = "data_10A.rec"
+dataDirectory = "datasets"
 
 recordFilePath = os.path.join (os.getcwd (), recordFileName)
 dataPath = os.path.join (os.getcwd (), dataDirectory)
@@ -35,13 +35,9 @@ def main () :
 		rollNo = int (input ("Enter the Student's Roll Number: "))
 
 		if (recordExists (rollNo, recordFilePath)) :
-			print ("Roll No.", rollNo, "already exists, overWrite (y/N) ? ")
-			choiceToEraseRecord = (input ().upper () == 'Y')
-			if (choiceToEraseRecord) :
+			choiceToEraseRecord = input (f"Roll No. {rollNo} already exists, overWrite (y/N) ? ").upper ()
+			if (choiceToEraseRecord == "Y") :
 				eraseRecord (rollNo, recordFilePath)
-				###############################################################################################################
-				continue # this is a temporary continue statement, to be removed after `eraseRecord ()` function is implemented
-				###############################################################################################################
 			else :
 				continue
 
@@ -58,23 +54,23 @@ def main () :
 			for (x, y, w, h) in detectedFacesCoordinates :
 				cv2.rectangle (frame, (x, y), (x + w, y + w), 100, 4)
 	
-			cv2.imshow ('Video Feed', frame)
+			cv2.imshow ("Video Feed", frame)
 			key = cv2.waitKey (1)
 	
 			# user pressed space or enter, hence, click photo
-			if (key == ord (' ') or key == ord ('\n')) :
+			if (key == ord (" ") or key == ord ("\n")) :
 				break
 
 		cv2.destroyAllWindows ()
 		
-		addRecord (studentName, rollNo, recordFilePath)
-		capturedFaces = captureFacesFromVideo (camera, processingScale, classifier, faceDetectionScale, neighbouringPixels)
+		addRecord (rollNo, studentName, recordFilePath)
+		capturedFaces = captureFacesFromCamera (camera, processingScale, classifier, faceDetectionScale, neighbouringPixels)
 		writeFaces (capturedFaces, rollNo, dataPath)
 		
 		moreToAdd = input ("Do you want to add more Students? (y/N): ")
 
 		# indexes to ensure functioning even if the entire word is typed
-		if (moreToAdd != 'y' and moreToAdd != 'Y') :
+		if (moreToAdd != "y" and moreToAdd != "Y") :
 			break
 
 main ()

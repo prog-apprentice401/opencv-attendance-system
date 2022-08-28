@@ -1,28 +1,47 @@
 import numpy
 import os
 
+def splitRecord (line) :
+	line = line.strip ()
+	rollNumberLength = 0
+
+	while (rollNumberLength < len (line) and line[rollNumberLength] != " ") :
+		rollNumberLength += 1
+	
+	line = [line[0:rollNumberLength], line[rollNumberLength:]]
+	for i in range (len (line)) :
+		line[i] = line[i].strip ()
+
+	return line
+
 def getRecordOf (rollNo, recordFilePath) :
 	# compare as string, so that if a single record in file is corrupted
 	# error is not raised while turning THAT to int
 	line = None
-	rollNo = str (rollNo)
-	try:
-		recordFile = open (recordFilePath, 'r')
-		while (line := recordFile.readline ()) :
-			line = line.split ()
+	recordFile = None
 
-			if (rollNo == line[0]) :
-				break
-		# not found
-		line = None
-
-	except:
+	try :
+		recordFile = open (recordFilePath, "r")
+	except FileNotFoundError :
 		print (f"Error Opening File: `{recordFilePath}`")
-	finally:
+		return None
+
+	try :
+		while (line := recordFile.readline ()) :
+			# skip empty lines
+			if (len (line) < 2) :
+				continue
+			line = splitRecord (line)
+			if (rollNo == int (line[0])) :
+				return line
+		# not found
+		return None
+	except ValueError :
+		print ("Error processing information, record file seems to be corrupted")
+		return None
+	finally :
 		recordFile.close ()
 	
-	return line
-
 
 def recordExists (rollNo, recordFilePath) :
 	if (getRecordOf (rollNo, recordFilePath)) :
@@ -30,10 +49,63 @@ def recordExists (rollNo, recordFilePath) :
 	else :
 		return False
 
-# dummy function, not implemented yet
 def eraseRecord (rollNo, recordFilePath) :
-	0
+	recordFile = None
+	tempRecordFile = None
 
-# dummy function, not implemented yet
+	try :
+		recordFile = open (recordFilePath, "r")
+		tempRecordFile = open (recordFilePath + ".tmp", "w")
+	except FileNotFoundError :
+		print (f"Error opening required files: `{recordFilePath}, `{recordFilePath}.tmp`")
+		return -1
+
+	try :
+		while (line := recordFile.readline ()) :
+			line = splitRecord (line)
+			# skip  record to delete
+			if (int (line[0]) == rollNo) :
+				continue
+			# write all other records
+			tempRecordFile.write (line[0] + line[1] + '\n')
+	except ValueError :
+		print (f"Error processing roll numbers. `{recordFilePath}` seems to be corrupted")
+	finally :
+		recordFile.close ()
+	os.remove (recordFilePath)
+	# make the updated file the new default
+	os.rename (recordFilePath + ".tmp", recordFilePath)
+
+
 def addRecord (rollNo, studentName, recordFilePath) :
-	0
+	recordFile = None
+	tempRecordFile = None
+	recordAdded = False
+
+	try :
+		recordFile = open (recordFilePath, "r")
+		tempRecordFile = open (recordFilePath + ".tmp", "w")
+	except FileNotFoundError :
+		print (f"Error opening required files: `{recordFilePath}, `{recordFilePath}.tmp`")
+		return -1
+
+	try :
+		while (line := recordFile.readline ()) :
+			line = splitRecord (line)
+			if (int (line[0]) > rollNo and not recordAdded) :
+				tempRecordFile.write (str (rollNo) + " " + studentName + "\n")
+				recordAdded = True
+			tempRecordFile.write (line[0] + " " + line [1] + "\n")
+
+		if (not recordAdded) :
+			tempRecordFile.write (str (rollNo) + " " + studentName + "\n")
+			recordAdded = True
+	except ValueError :
+		print (f"Error processing roll numbers. `{recordFilePath}` seems to be corrupted")
+	finally :
+		recordFile.close ()
+		tempRecordFile.close ()
+
+	os.remove (recordFilePath)
+	# make the updated file the new default
+	os.rename (recordFilePath + ".tmp", recordFilePath)

@@ -1,3 +1,3 @@
 source/datasets
-tests
+**/tests
 **/__pycache__
