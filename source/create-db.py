@@ -5,6 +5,7 @@ import sys
 
 from helpers.filehelpers import *
 from helpers.facehelpers import *
+from helpers.recognizer import *
 
 from globalvars import *
 
@@ -63,3 +64,6 @@ def main () :
 		moreToAdd = input ("Do you want to add more Students? (y/N): ")
 
 main ()
+# save the newly created recognizer
+updateRecognizer (dataPath, faceRecognizerFilePath)
+
