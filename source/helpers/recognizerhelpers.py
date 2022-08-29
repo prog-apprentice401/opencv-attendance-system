@@ -32,8 +32,8 @@ def updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath) :
 	print ("Done Training")
 
 	if (os.path.exists  (faceRecognizerFilePath)) :
-		os.remove (faceRecogniserFilePath)
-	faceRecognizer.save (faceRecogniserFilePath)
+		os.remove (faceRecognizerFilePath)
+	faceRecognizer.save (faceRecognizerFilePath)
 
 	return faceRecognizer
 
