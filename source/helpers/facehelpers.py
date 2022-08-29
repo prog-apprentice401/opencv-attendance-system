@@ -14,19 +14,18 @@ def extractFacesFromImage (image, classifier, scale, neighbours) :
 
 def captureFacesFromCamera (camera, processingScale, classifier, faceDetectionScale, neighbouringPixels) :
 	capturedFaces = []
-	faceList = []
 
 	for i in range (5) :
 		while True :
 			(_, frame) = camera.read ()
 			frame = cv2.resize (frame, (int (frame.shape[1] * processingScale), int (frame.shape[0] * processingScale)))
+			grayFrame = cv2.cvtColor (frame, cv2.COLOR_BGR2GRAY)
 
 			#use only the first face, and ignore the coordinates returned
-			facesList = extractFacesFromImage (frame, classifier, faceDetectionScale, neighbouringPixels)
+			facesList = extractFacesFromImage (grayFrame, classifier, faceDetectionScale, neighbouringPixels)
 			if (len (facesList) > 0) :
 				break
-		face = facesList[0]
-		capturedFaces.append (face)
+		capturedFaces.append (facelist[0])
 		cv2.waitKey (20)
 	
 	return capturedFaces

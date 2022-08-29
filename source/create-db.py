@@ -61,9 +61,12 @@ def main () :
 		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels)
 		writeFaces (capturedFaces, rollNo, dataPath)
 		
+		
 		moreToAdd = input ("Do you want to add more Students? (y/N): ")
 
 main ()
+
 # save the newly created recognizer
-updateRecognizer (dataPath, faceRecognizerFilePath)
+faceRecognizer = cv2.face.LBPHFaceRecognizer ()
+faceRecognizer = updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)
 

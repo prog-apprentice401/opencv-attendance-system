@@ -1,6 +1,5 @@
 import os
 
-classifierFile = os.path.join ('assets', 'haarcascade_frontalface_default.xml')
 
 imageProcessingScale = 0.75
 
@@ -14,6 +13,7 @@ _assetsDirectory = "assets"
 _recordFileName = "data_10A.rec"
 _dataDirectory = "datasets"
 
+classifierFile = os.path.join (_assetsDirectory, 'haarcascade_frontalface_default.xml')
 recordFilePath = os.path.join (_assetsDirectory, _recordFileName)
 dataPath = os.path.join (_assetsDirectory, _dataDirectory)
 
