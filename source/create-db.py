@@ -5,7 +5,7 @@ import sys
 
 from helpers.filehelpers import *
 from helpers.facehelpers import *
-from helpers.recognizer import *
+from helpers.recognizerhelpers import *
 
 from globalvars import *
 
@@ -58,7 +58,7 @@ def main () :
 		cv2.destroyAllWindows ()
 		
 		addRecord (rollNo, studentName, recordFilePath)
-		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels)
+		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels, 20)
 		writeFaces (capturedFaces, rollNo, dataPath)
 		
 		
@@ -67,6 +67,6 @@ def main () :
 main ()
 
 # save the newly created recognizer
-faceRecognizer = cv2.face.LBPHFaceRecognizer ()
-faceRecognizer = updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)
+faceRecognizer = cv2.face.LBPHFaceRecognizer.create ()
+updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)
 

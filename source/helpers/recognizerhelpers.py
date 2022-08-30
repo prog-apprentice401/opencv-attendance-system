@@ -28,11 +28,13 @@ def getFacesAndLabels (dataPath) :
 def updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath) :
 	faces, labels = getFacesAndLabels (dataPath)
 	print (f"{len (faces)} faces found with {len (labels)} label. Training...")
-	faceRecognizer.train (faces, labels)
+	try :
+		faceRecognizer.update (faces, labels)
+	except :
+		print ("Something real wrong happened with the face recognizer, training afresh")
+		faceRecognizer.train (faces, labels)
 	print ("Done Training")
 
-	if (os.path.exists  (faceRecognizerFilePath)) :
-		os.remove (faceRecognizerFilePath)
 	faceRecognizer.save (faceRecognizerFilePath)
 
 	return faceRecognizer

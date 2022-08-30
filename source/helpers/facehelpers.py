@@ -3,7 +3,6 @@ import cv2
 import os
 
 def extractFacesFromImage (image, classifier, scale, neighbours) :
-	grayImage = cv2.cvtColor (image, cv2.COLOR_BGR2GRAY)
 	facesCoordinates = classifier.detectMultiScale (image, scale, neighbours)
 	faces = []
 
@@ -12,10 +11,10 @@ def extractFacesFromImage (image, classifier, scale, neighbours) :
 	
 	return faces
 
-def captureFacesFromCamera (camera, processingScale, classifier, faceDetectionScale, neighbouringPixels) :
+def captureFacesFromCamera (camera, processingScale, classifier, faceDetectionScale, neighbouringPixels, numberOfImages) :
 	capturedFaces = []
 
-	for i in range (5) :
+	for i in range (numberOfImages) :
 		while True :
 			(_, frame) = camera.read ()
 			frame = cv2.resize (frame, (int (frame.shape[1] * processingScale), int (frame.shape[0] * processingScale)))
@@ -25,7 +24,7 @@ def captureFacesFromCamera (camera, processingScale, classifier, faceDetectionSc
 			facesList = extractFacesFromImage (grayFrame, classifier, faceDetectionScale, neighbouringPixels)
 			if (len (facesList) > 0) :
 				break
-		capturedFaces.append (facelist[0])
+		capturedFaces.append (facesList[0])
 		cv2.waitKey (20)
 	
 	return capturedFaces
