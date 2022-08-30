@@ -5,6 +5,7 @@ import sys
 
 from helpers.filehelpers import *
 from helpers.facehelpers import *
+from helpers.recognizer import *
 
 from globalvars import *
 
@@ -60,6 +61,12 @@ def main () :
 		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels)
 		writeFaces (capturedFaces, rollNo, dataPath)
 		
+		
 		moreToAdd = input ("Do you want to add more Students? (y/N): ")
 
 main ()
+
+# save the newly created recognizer
+faceRecognizer = cv2.face.LBPHFaceRecognizer ()
+faceRecognizer = updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)
+

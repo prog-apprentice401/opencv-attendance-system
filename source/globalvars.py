@@ -1,6 +1,5 @@
 import os
 
-classifierFile = os.path.join ('opencv-files', 'haarcascade_frontalface_default.xml')
 
 imageProcessingScale = 0.75
 
@@ -9,8 +8,14 @@ neighbouringPixels = 10
 
 camPort = 0
 
-recordFileName = "data_10A.rec"
-dataDirectory = "datasets"
+_assetsDirectory = "assets"
 
-recordFilePath = os.path.join (os.getcwd (), recordFileName)
-dataPath = os.path.join (os.getcwd (), dataDirectory)
+_recordFileName = "data_10A.rec"
+_dataDirectory = "datasets"
+
+classifierFile = os.path.join (_assetsDirectory, 'haarcascade_frontalface_default.xml')
+recordFilePath = os.path.join (_assetsDirectory, _recordFileName)
+dataPath = os.path.join (_assetsDirectory, _dataDirectory)
+
+_faceRecognizerFileName = "faceRecognizer.bin"
+faceRecognizerFilePath = os.path.join (_assetsDirectory, _faceRecognizerFileName)
