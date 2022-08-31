@@ -1,6 +1,9 @@
-from filehelpers import *
+from helpers.filehelpers import *
 
 def createAttendanceFile (attendanceFilePath, recordFilePath) :
+	attendanceFile = None
+	recordFile = None
+
 	if (os.path.exists (attendanceFilePath)) :
 		return -1
 	try :
@@ -10,17 +13,17 @@ def createAttendanceFile (attendanceFilePath, recordFilePath) :
 		return -1
 
 	try :
-		recordFile = open (recordFilePath, "w")
+		recordFile = open (recordFilePath, "r")
+		while (line := recordFile.readline ()) :
+			line = splitRecord (line)
+			# start with unmarked attendance
+			attendanceFile.write (str (line[0]) + " " + str (line[1]) + " " + "--\n")
 	except :
 		print (f"Cannot open file `{recordFilePath}`")
 		return -1
 	finally :
 		attendanceFile.close ()
 	
-	while (line := recordFile.readline ()) :
-		line = splitRecord (line)
-		# start with unmarked attendance
-		attendanceFile.write (str (line[0]) + " " + str (line[1]) + " " + "NA")
 
 def splitAttendanceRecord (line) :
 	line = line.strip ()
@@ -39,11 +42,11 @@ def splitAttendanceRecord (line) :
 
 	return line
 
-def markAttendance (attendanceDirectory, recordFilePath, date, attendanceStatus) : 
-	attendanceStatusStr = "PR" if attendanceStatus else attendanceStatusStr = "AB"
-	attendanceFilePath = os.path.join (attendanceDirectory, date.strftime ("%Y_%m_%d.rec"))
+def markAttendance (rollNo, attendanceFilePath, recordFilePath, attendanceStatus) : 
+	attendanceStatusStr = "PR" if attendanceStatus == True else "AB"
 
 	if (not os.path.exists (attendanceFilePath)) :
+		print (f"Could not find attendance file `{attendanceFilePath}`, creating new")
 		createAttendanceFile (attendanceFilePath, recordFilePath)
 	
 	attendanceFile = None
@@ -53,19 +56,20 @@ def markAttendance (attendanceDirectory, recordFilePath, date, attendanceStatus)
 		attendanceFile = open (attendanceFilePath, "r")
 		tempAttendanceFile = open (attendanceFilePath + ".tmp", "w")
 	except FileNotFoundError :
-		print (f"Error opening required files: `{recordFilePath}, `{recordFilePath}.tmp`")
+		print (f"Error opening required files: `{attendanceFilePath}, `{attendanceFilePath}.tmp`")
 		return -1
 
 	try :
-		while (line := recordFile.readline ()) :
+		while (line := attendanceFile.readline ()) :
 			line = splitAttendanceRecord (line)
 
 			# required record found
 			if (int (line[0]) == rollNo) :
+				print ("record for attendance marking found")
 				line[2] = attendanceStatusStr
 			tempAttendanceFile.write (line[0] + " " + line [1] + " " + line[2] + "\n")
 
-	except ValueError :
+	except :
 		print (f"Error processing roll numbers. `{attendanceFilePath}` seems to be corrupted")
 	finally :
 		attendanceFile.close ()
