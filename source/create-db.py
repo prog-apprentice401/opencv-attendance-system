@@ -22,9 +22,13 @@ def main () :
 	while moreToAdd[0] == 'Y' or moreToAdd[0] == 'y':
 		cprint ("Enter the Student's Name: ", "blue", end = "")
 		studentName = input ()
-		cprint ("Enter the Student's Roll Number (-1 to cancel this entry): ", "blue", end = "")
-		rollNo = int (input ())
-
+		while True :
+			try :
+				cprint ("Enter the Student's Roll Number (-1 to cancel this entry): ", "blue", end = "")
+				rollNo = int (input ())
+				break
+			except ValueError :
+				cprint ("Invalid value for roll no!", "red", attrs = ["bold"])
 		if (recordExists (rollNo, recordFilePath)) :
 			cprint (f"Roll No. {rollNo} already exists, overWrite (y/N) ? ", "yellow", end = "")
 			choiceToEraseRecord = input ().upper ()
