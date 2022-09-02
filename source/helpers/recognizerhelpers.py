@@ -2,6 +2,8 @@ import cv2
 import numpy
 import os
 
+from termcolor import cprint
+
 def getFacesAndLabels (dataPath) :
 	labels = []
 	faces = []
@@ -13,7 +15,7 @@ def getFacesAndLabels (dataPath) :
 		try:
 			currentLabel = int (studentFolder[1:])
 		except ValueError :
-			print (f"Folder `{studentFolder}` is named incorrectly, cannot process. Skipping")
+			cprint (f"Folder `{studentFolder}` is named incorrectly, cannot process. Skipping", "magenta")
 			continue
 
 		studentFolderPath = os.path.join (dataPath, studentFolder)
@@ -27,13 +29,13 @@ def getFacesAndLabels (dataPath) :
 
 def updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath) :
 	faces, labels = getFacesAndLabels (dataPath)
-	print (f"{len (faces)} faces found with {len (labels)} label. Training...")
+	cprint (f"{len (faces)} faces found with {len (labels)} label. Training...", "green")
 	try :
 		faceRecognizer.update (faces, labels)
 	except :
-		print ("Something real wrong happened with the face recognizer, training afresh")
+		cprint ("Something real wrong happened with the face recognizer, training afresh", "magenta")
 		faceRecognizer.train (faces, labels)
-	print ("Done Training")
+	cprint ("Done Training", "green")
 
 	faceRecognizer.save (faceRecognizerFilePath)
 
@@ -43,6 +45,6 @@ def safeLoadRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath) :
 	try :
 		faceRecognizer.load (faceRecognizerFilePath)
 	except :
-		print (f"Could not load face recognizer from file `{faceRecognizerFilePath}`, creating new")
+		cprint (f"Could not load face recognizer from file `{faceRecognizerFilePath}`, creating new", "magenta")
 		updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)
 	return faceRecognizer

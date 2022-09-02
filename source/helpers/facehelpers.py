@@ -1,6 +1,7 @@
 import numpy
 import cv2
 import os
+from termcolor import cprint
 
 def extractFacesFromImage (image, classifier, scale, neighbours) :
 	facesCoordinates = classifier.detectMultiScale (image, scale, neighbours)
@@ -35,9 +36,10 @@ def writeFaces (capturedFaces, rollNo, dataDirectory) :
 	if (not os.path.isdir (dataPath)) :
 		os.mkdir (dataPath)
 	else :
-		choiceToOverwrite = input ("directory for requested roll no already exists, overwrite (y/N) ?")
+		cprint ("directory for requested roll no already exists, overwrite (y/N) ?", "yellow", end = "")
+		choiceToOverwrite = input ()
 		if (choiceToOverwrite != "y" and choiceToOverwrite != "Y") :
-			print ("Skipping overwrite")
+			cprint ("Skipping overwrite", "magenta")
 			return 
 
 		for file in os.listdir (dataPath) :

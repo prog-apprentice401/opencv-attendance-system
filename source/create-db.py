@@ -2,6 +2,7 @@ import cv2
 import os
 import numpy
 import sys
+from termcolor import cprint
 
 from helpers.filehelpers import *
 from helpers.facehelpers import *
@@ -19,11 +20,14 @@ def main () :
 	moreToAdd = 'Y'
 
 	while moreToAdd[0] == 'Y' or moreToAdd[0] == 'y':
-		studentName = input ("Enter the Student's Name: ")
-		rollNo = int (input ("Enter the Student's Roll Number (-1 to cancel this entry) :"))
+		cprint ("Enter the Student's Name: ", "blue", end = "")
+		studentName = input ()
+		cprint ("Enter the Student's Roll Number (-1 to cancel this entry): ", "blue", end = "")
+		rollNo = int (input ())
 
 		if (recordExists (rollNo, recordFilePath)) :
-			choiceToEraseRecord = input (f"Roll No. {rollNo} already exists, overWrite (y/N) ? ").upper ()
+			cprint (f"Roll No. {rollNo} already exists, overWrite (y/N) ? ", "yellow", end = "")
+			choiceToEraseRecord = input ().upper ()
 			if (choiceToEraseRecord == "Y") :
 				eraseRecord (rollNo, recordFilePath)
 			else :
@@ -31,8 +35,9 @@ def main () :
 
 		# provide a way to undo the last entry
 		elif (rollNo == -1):
-			print ("Recieved -1 as roll no, skipping entry")
-			moreToAdd = input ("Do you want to add more Students? (y/N): ")
+			cprint ("Recieved -1 as roll no, skipping entry", "magenta")
+			cprint ("Do you want to add more Students? (y/N): ", "blue", end = "")
+			moreToAdd = input ()
 			continue
 
 		# keep showing detected faces
@@ -51,18 +56,19 @@ def main () :
 			cv2.imshow ("Video Feed", frame)
 			key = cv2.waitKey (1)
 	
-			# user pressed space or enter, hence, click photo
-			if (key == ord (" ") or key == ord ("\n")) :
+			# user pressed space, hence, click photo
+			if (key == ord (" ")) :
 				break
 
 		cv2.destroyAllWindows ()
+		
 		
 		addRecord (rollNo, studentName, recordFilePath)
 		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels, 20)
 		writeFaces (capturedFaces, rollNo, dataPath)
 		
-		
-		moreToAdd = input ("Do you want to add more Students? (y/N): ")
+		cprint ("Do you want to add more Students? (y/N): ", "blue", end = "")
+		moreToAdd = input ()
 
 main ()
 

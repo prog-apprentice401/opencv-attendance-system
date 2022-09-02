@@ -2,6 +2,7 @@ import os
 import numpy
 import cv2
 from datetime import date
+from termcolor import cprint
 
 from helpers.facehelpers import *
 from helpers.filehelpers import *
@@ -21,7 +22,6 @@ attendanceFilePath = os.path.join (attendanceDirectoryPath, today.strftime ("%Y_
 while True :
 	face = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels, 1)[0]
 	label = faceRecognizer.predict (face)
-	print (label)
-	print (attendanceFilePath)
 	rollNo = label[0]
+	cprint (f"Roll number found : {rollNo}", "yellow")
 	markAttendance (rollNo, attendanceFilePath, recordFilePath, True)

@@ -1,5 +1,6 @@
 import numpy
 import os
+from termcolor import cprint
 
 def splitRecord (line) :
 	line = line.strip ()
@@ -23,7 +24,7 @@ def getRecordOf (rollNo, recordFilePath) :
 	try :
 		recordFile = open (recordFilePath, "r")
 	except FileNotFoundError :
-		print (f"Error Opening File: `{recordFilePath}`")
+		cprint (f"Error Opening File: `{recordFilePath}`", "red", attrs = ["bold"])
 		return None
 
 	try :
@@ -37,7 +38,7 @@ def getRecordOf (rollNo, recordFilePath) :
 		# not found
 		return None
 	except ValueError :
-		print ("Error processing information, record file seems to be corrupted")
+		cprint (f"Error processing information, record file `recordFilePath` seems to be corrupted", "red", attrs = ["bold"])
 		return None
 	finally :
 		recordFile.close ()
@@ -57,7 +58,7 @@ def eraseRecord (rollNo, recordFilePath) :
 		recordFile = open (recordFilePath, "r")
 		tempRecordFile = open (recordFilePath + ".tmp", "w")
 	except FileNotFoundError :
-		print (f"Error opening required files: `{recordFilePath}, `{recordFilePath}.tmp`")
+		cprint (f"Error opening required files: `{recordFilePath}, `{recordFilePath}.tmp`", "red", attrs = ["bold"])
 		return -1
 
 	try :
@@ -69,7 +70,7 @@ def eraseRecord (rollNo, recordFilePath) :
 			# write all other records
 			tempRecordFile.write (line[0] + line[1] + '\n')
 	except ValueError :
-		print (f"Error processing roll numbers. `{recordFilePath}` seems to be corrupted")
+		cprint (f"Error processing roll numbers. `{recordFilePath}` seems to be corrupted", "red", attrs = ["bold"])
 	finally :
 		recordFile.close ()
 	os.remove (recordFilePath)
@@ -86,7 +87,7 @@ def addRecord (rollNo, studentName, recordFilePath) :
 		recordFile = open (recordFilePath, "r")
 		tempRecordFile = open (recordFilePath + ".tmp", "w")
 	except FileNotFoundError :
-		print (f"Error opening required files: `{recordFilePath}, `{recordFilePath}.tmp`")
+		cprint (f"Error opening required files: `{recordFilePath}, `{recordFilePath}.tmp`", "red", attrs = ["bold"])
 		return -1
 
 	try :
@@ -101,7 +102,7 @@ def addRecord (rollNo, studentName, recordFilePath) :
 			tempRecordFile.write (str (rollNo) + " " + studentName + "\n")
 			recordAdded = True
 	except ValueError :
-		print (f"Error processing roll numbers. `{recordFilePath}` seems to be corrupted")
+		cprint (f"Error processing roll numbers. `{recordFilePath}` seems to be corrupted", "red", attrs = ["bold"])
 	finally :
 		recordFile.close ()
 		tempRecordFile.close ()

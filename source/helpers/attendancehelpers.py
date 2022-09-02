@@ -1,4 +1,5 @@
 from helpers.filehelpers import *
+from termcolor import cprint
 
 def createAttendanceFile (attendanceFilePath, recordFilePath) :
 	attendanceFile = None
@@ -9,7 +10,7 @@ def createAttendanceFile (attendanceFilePath, recordFilePath) :
 	try :
 		attendanceFile = open (attendanceFilePath, "w")
 	except :
-		print (f"Cannot create file `{attendanceFilePath}`")
+		cprint (f"Cannot create file `{attendanceFilePath}`", "red", attrs = ["bold"])
 		return -1
 
 	try :
@@ -19,7 +20,7 @@ def createAttendanceFile (attendanceFilePath, recordFilePath) :
 			# start with unmarked attendance
 			attendanceFile.write (str (line[0]) + " " + str (line[1]) + " " + "--\n")
 	except :
-		print (f"Cannot open file `{recordFilePath}`")
+		cprint (f"Cannot open file `{recordFilePath}`", "red", attrs = ["bold"])
 		return -1
 	finally :
 		attendanceFile.close ()
@@ -46,7 +47,7 @@ def markAttendance (rollNo, attendanceFilePath, recordFilePath, attendanceStatus
 	attendanceStatusStr = "PR" if attendanceStatus == True else "AB"
 
 	if (not os.path.exists (attendanceFilePath)) :
-		print (f"Could not find attendance file `{attendanceFilePath}`, creating new")
+		cprint (f"Could not find attendance file `{attendanceFilePath}`, creating new", "magenta")
 		createAttendanceFile (attendanceFilePath, recordFilePath)
 	
 	attendanceFile = None
@@ -56,7 +57,7 @@ def markAttendance (rollNo, attendanceFilePath, recordFilePath, attendanceStatus
 		attendanceFile = open (attendanceFilePath, "r")
 		tempAttendanceFile = open (attendanceFilePath + ".tmp", "w")
 	except FileNotFoundError :
-		print (f"Error opening required files: `{attendanceFilePath}, `{attendanceFilePath}.tmp`")
+		cprint (f"Error opening required files: `{attendanceFilePath}, `{attendanceFilePath}.tmp`", "red", attrs = [bold])
 		return -1
 
 	try :
@@ -65,12 +66,11 @@ def markAttendance (rollNo, attendanceFilePath, recordFilePath, attendanceStatus
 
 			# required record found
 			if (int (line[0]) == rollNo) :
-				print ("record for attendance marking found")
 				line[2] = attendanceStatusStr
 			tempAttendanceFile.write (line[0] + " " + line [1] + " " + line[2] + "\n")
 
 	except :
-		print (f"Error processing roll numbers. `{attendanceFilePath}` seems to be corrupted")
+		cprint (f"Error processing roll numbers. `{attendanceFilePath}` seems to be corrupted", "red", attrs = ["bold"])
 	finally :
 		attendanceFile.close ()
 		tempAttendanceFile.close ()
