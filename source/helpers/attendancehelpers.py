@@ -47,7 +47,7 @@ def markAttendance (rollNo, attendanceFilePath, recordFilePath, attendanceStatus
 	attendanceStatusStr = "PR" if attendanceStatus == True else "AB"
 
 	if (not os.path.exists (attendanceFilePath)) :
-		cprint (f"Could not find attendance file `{attendanceFilePath}`, creating new", "magenta")
+		cprint (f"Could not find attendance file `{attendanceFilePath}`, creating new", "magenta", attrs = ["bold"])
 		createAttendanceFile (attendanceFilePath, recordFilePath)
 	
 	attendanceFile = None

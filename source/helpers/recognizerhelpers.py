@@ -15,7 +15,7 @@ def getFacesAndLabels (dataPath) :
 		try:
 			currentLabel = int (studentFolder[1:])
 		except ValueError :
-			cprint (f"Folder `{studentFolder}` is named incorrectly, cannot process. Skipping", "magenta")
+			cprint (f"Folder `{studentFolder}` is named incorrectly, cannot process. Skipping", "magenta", attrs = ["bold"])
 			continue
 
 		studentFolderPath = os.path.join (dataPath, studentFolder)
@@ -29,13 +29,13 @@ def getFacesAndLabels (dataPath) :
 
 def updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath) :
 	faces, labels = getFacesAndLabels (dataPath)
-	cprint (f"{len (faces)} faces found with {len (labels)} label. Training...", "green")
+	cprint (f"{len (faces)} faces found with {len (labels)} label. Training...", "green", attrs = ["bold"])
 	try :
 		faceRecognizer.update (faces, labels)
 	except :
-		cprint ("Something real wrong happened with the face recognizer, training afresh", "magenta")
+		cprint ("Something real wrong happened with the face recognizer, training afresh", "magenta", attrs = ["bold"])
 		faceRecognizer.train (faces, labels)
-	cprint ("Done Training", "green")
+	cprint ("Done Training", "green", attrs = ["bold"])
 
 	faceRecognizer.save (faceRecognizerFilePath)
 
@@ -45,6 +45,6 @@ def safeLoadRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath) :
 	try :
 		faceRecognizer.load (faceRecognizerFilePath)
 	except :
-		cprint (f"Could not load face recognizer from file `{faceRecognizerFilePath}`, creating new", "magenta")
+		cprint (f"Could not load face recognizer from file `{faceRecognizerFilePath}`, creating new", "magenta", attrs = ["bold"])
 		updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)
 	return faceRecognizer

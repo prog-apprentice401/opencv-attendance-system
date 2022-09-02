@@ -36,10 +36,10 @@ def writeFaces (capturedFaces, rollNo, dataDirectory) :
 	if (not os.path.isdir (dataPath)) :
 		os.mkdir (dataPath)
 	else :
-		cprint ("directory for requested roll no already exists, overwrite (y/N) ?", "yellow", end = "")
+		cprint ("directory for requested roll no already exists, overwrite (y/N) ?", "yellow", attrs = ["bold"], end = "")
 		choiceToOverwrite = input ()
 		if (choiceToOverwrite != "y" and choiceToOverwrite != "Y") :
-			cprint ("Skipping overwrite", "magenta")
+			cprint ("Skipping overwrite", "magenta", attrs = ["bold"])
 			return 
 
 		for file in os.listdir (dataPath) :

@@ -20,17 +20,17 @@ def main () :
 	moreToAdd = 'Y'
 
 	while moreToAdd[0] == 'Y' or moreToAdd[0] == 'y':
-		cprint ("Enter the Student's Name: ", "blue", end = "")
+		cprint ("Enter the Student's Name: ", "blue", attrs = ["bold"], end = "")
 		studentName = input ()
 		while True :
 			try :
-				cprint ("Enter the Student's Roll Number (-1 to cancel this entry): ", "blue", end = "")
+				cprint ("Enter the Student's Roll Number (-1 to cancel this entry): ", "blue", attrs = ["bold"], end = "")
 				rollNo = int (input ())
 				break
 			except ValueError :
 				cprint ("Invalid value for roll no!", "red", attrs = ["bold"])
 		if (recordExists (rollNo, recordFilePath)) :
-			cprint (f"Roll No. {rollNo} already exists, overWrite (y/N) ? ", "yellow", end = "")
+			cprint (f"Roll No. {rollNo} already exists, overWrite (y/N) ? ", "yellow", attrs = ["bold"], end = "")
 			choiceToEraseRecord = input ().upper ()
 			if (choiceToEraseRecord == "Y") :
 				eraseRecord (rollNo, recordFilePath)
@@ -39,8 +39,8 @@ def main () :
 
 		# provide a way to undo the last entry
 		elif (rollNo == -1):
-			cprint ("Recieved -1 as roll no, skipping entry", "magenta")
-			cprint ("Do you want to add more Students? (y/N): ", "blue", end = "")
+			cprint ("Recieved -1 as roll no, skipping entry", "magenta", attrs = ["bold"])
+			cprint ("Do you want to add more Students? (y/N): ", "blue", attrs = ["bold"], end = "")
 			moreToAdd = input ()
 			continue
 
@@ -71,7 +71,7 @@ def main () :
 		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels, 20)
 		writeFaces (capturedFaces, rollNo, dataPath)
 		
-		cprint ("Do you want to add more Students? (y/N): ", "blue", end = "")
+		cprint ("Do you want to add more Students? (y/N): ", "blue", attrs = ["bold"], end = "")
 		moreToAdd = input ()
 
 main ()
