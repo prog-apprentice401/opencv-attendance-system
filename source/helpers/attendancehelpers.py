@@ -57,7 +57,7 @@ def markAttendance (rollNo, attendanceFilePath, recordFilePath, attendanceStatus
 		attendanceFile = open (attendanceFilePath, "r")
 		tempAttendanceFile = open (attendanceFilePath + ".tmp", "w")
 	except FileNotFoundError :
-		cprint (f"Error opening required files: `{attendanceFilePath}, `{attendanceFilePath}.tmp`", "red", attrs = [bold])
+		cprint (f"Error opening required files: `{attendanceFilePath}, `{attendanceFilePath}.tmp`", "red", attrs = ["bold"])
 		return -1
 
 	try :

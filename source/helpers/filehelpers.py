@@ -1,4 +1,3 @@
-import numpy
 import os
 from termcolor import cprint
 
