@@ -16,7 +16,7 @@ faceRecognizer = cv2.face.LBPHFaceRecognizer.create ()
 faceRecognizer = safeLoadRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)
 
 today = date.today ()
-attendanceFilePath = os.path.join (attendanceDirectoryPath, today.strftime ("%Y_%m_%d.rec"))
+attendanceFilePath = os.path.join (attendanceDirectoryPath, today.strftime ("%Y_%m_%d.record"))
 
 if (not os.path.exists (attendanceDirectoryPath)) :
 	print ("Did not find, attendance directory, creating new")

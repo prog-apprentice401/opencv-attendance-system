@@ -9,7 +9,7 @@ camPort = 0
 
 _assetsDirectory = "assets"
 
-_recordFileName = "data_10A.rec"
+_recordFileName = "data_10A.record"
 _dataDirectory = "datasets"
 _attendanceDirectory = "attendance"
 
@@ -18,5 +18,5 @@ recordFilePath = os.path.join (_assetsDirectory, _recordFileName)
 dataPath = os.path.join (_assetsDirectory, _dataDirectory)
 attendanceDirectoryPath = os.path.join (_assetsDirectory, _attendanceDirectory)
 
-_faceRecognizerFileName = "faceRecognizer.bin"
+_faceRecognizerFileName = "faceRecognizer.bak"
 faceRecognizerFilePath = os.path.join (_assetsDirectory, _faceRecognizerFileName)
