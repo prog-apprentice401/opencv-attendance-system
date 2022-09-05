@@ -30,11 +30,11 @@ def captureFacesFromCamera (camera, processingScale, classifier, faceDetectionSc
 	
 	return capturedFaces
 
-def writeFaces (capturedFaces, rollNo, dataDirectory) :
-	dataPath = os.path.join (dataDirectory, "s" + str (rollNo))
+def writeFaces (capturedFaces, rollNo, dataPath) :
+	studentDataPath = os.path.join (dataPath, "s" + str (rollNo))
 
-	if (not os.path.isdir (dataPath)) :
-		os.mkdir (dataPath)
+	if (not os.path.isdir (studentDataPath)) :
+		os.mkdir (studentDataPath)
 	else :
 		cprint ("directory for requested roll no already exists, overwrite (y/N) ?", "yellow", attrs = ["bold"], end = "")
 		choiceToOverwrite = input ()
@@ -42,12 +42,12 @@ def writeFaces (capturedFaces, rollNo, dataDirectory) :
 			cprint ("Skipping overwrite", "magenta", attrs = ["bold"])
 			return 
 
-		for file in os.listdir (dataPath) :
-			os.remove (os.path.join (dataPath, file))
+		for file in os.listdir (studentDataPath) :
+			os.remove (os.path.join (studentDataPath, file))
 
 	i = 0
 
 	for face in capturedFaces :
-		imagePath = os.path.join (dataPath, str (i) + ".png")
+		imagePath = os.path.join (studentDataPath, str (i) + ".png")
 		cv2.imwrite (imagePath, face)
 		i += 1

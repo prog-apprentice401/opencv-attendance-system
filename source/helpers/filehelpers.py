@@ -82,7 +82,7 @@ def addRecord (rollNo, studentName, recordFilePath) :
 	recordFile = None
 	tempRecordFile = None
 	recordAdded = False
-
+	
 	try :
 		recordFile = open (recordFilePath, "r")
 		tempRecordFile = open (recordFilePath + ".tmp", "w")
