@@ -1,6 +1,5 @@
 import cv2
 import os
-import numpy
 from termcolor import cprint
 
 from helpers.filehelpers import *
@@ -71,7 +70,6 @@ def main () :
 				break
 
 		cv2.destroyAllWindows ()
-		
 		
 		addRecord (rollNo, studentName, recordFilePath)
 		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels, 20)

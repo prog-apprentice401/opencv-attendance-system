@@ -1,5 +1,4 @@
 import os
-import numpy
 import cv2
 from datetime import date
 from termcolor import cprint
@@ -18,6 +17,10 @@ faceRecognizer = safeLoadRecognizer (faceRecognizer, faceRecognizerFilePath, dat
 
 today = date.today ()
 attendanceFilePath = os.path.join (attendanceDirectoryPath, today.strftime ("%Y_%m_%d.rec"))
+
+if (not os.path.exists (attendanceDirectoryPath)) :
+	print ("Did not find, attendance directory, creating new")
+	os.mkdir (attendanceDirectoryPath)
 
 while True :
 	face = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels, 1)[0]
