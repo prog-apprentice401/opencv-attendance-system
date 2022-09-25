@@ -1,7 +1,5 @@
 import cv2
 import os
-import numpy
-import sys
 from termcolor import cprint
 
 from helpers.filehelpers import *
@@ -12,6 +10,13 @@ from globalvars import *
 
 rollNo = 0
 studentName = ""
+
+if (not os.path.exists (recordFilePath)) :
+	file = open (recordFilePath, "a")
+	file.close ()
+
+if (not os.path.exists (dataPath)) :
+	os.mkdir (dataPath)
 
 def main () :
 	classifier = cv2.CascadeClassifier (classifierFile)
@@ -79,13 +84,13 @@ def main () :
 
 		cv2.destroyAllWindows ()
 		
-		
 		addRecord (rollNo, studentName, recordFilePath)
 		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels, 20)
 		writeFaces (capturedFaces, rollNo, dataPath)
 		
 		cprint ("Do you want to add more Students? (y/N): ", "blue", attrs = ["bold"], end = "")
-		moreToAdd = input ()
+		# to handle empty inputs
+		moreToAdd = input () + " "
 
 main ()
 
