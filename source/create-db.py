@@ -20,7 +20,7 @@ def main () :
 	moreToAdd = 'Y'
 
 	while moreToAdd[0] == 'Y' or moreToAdd[0] == 'y':
-		cprint ("Enter the Student's Name: ", "blue", attrs = ["bold"], end = "")
+		cprint ("Enter the Student's Name (or 'REM' to remove a previous entry)", "blue", attrs = ["bold"], end = "")
 		studentName = input ()
 		while True :
 			try :
@@ -29,6 +29,26 @@ def main () :
 				break
 			except ValueError :
 				cprint ("Invalid value for roll no!", "red", attrs = ["bold"])
+
+		# provide a way to undo the last entry
+		if (rollNo == -1):
+			cprint ("Recieved -1 as roll no, skipping entry", "magenta", attrs = ["bold"])
+			cprint ("Do you want to add more Students? (y/N): ", "blue", attrs = ["bold"], end = "")
+			moreToAdd = input ()
+			continue
+
+		# provide a way to remove records if the roll no entered was not -1
+		elif (studentName == "REM") :
+			if (not recordExists (rollNo, recordFilePath)) :
+				cprint ("Record to delete does not exist!", "red", attrs = ["bold"])
+				continue
+			else :
+				eraseRecord (rollNo, recordFilePath)
+				cprint (f"Record of Roll No. `{rollNo}` erased", "green", attrs = ["bold"])
+			cprint ("Do you want to add more Students? (y/N): ", "blue", attrs = ["bold"], end = "")
+			moreToAdd = input ()
+			continue
+
 		if (recordExists (rollNo, recordFilePath)) :
 			cprint (f"Roll No. {rollNo} already exists, overWrite (y/N) ? ", "yellow", attrs = ["bold"], end = "")
 			choiceToEraseRecord = input ().upper ()
@@ -36,13 +56,6 @@ def main () :
 				eraseRecord (rollNo, recordFilePath)
 			else :
 				continue
-
-		# provide a way to undo the last entry
-		elif (rollNo == -1):
-			cprint ("Recieved -1 as roll no, skipping entry", "magenta", attrs = ["bold"])
-			cprint ("Do you want to add more Students? (y/N): ", "blue", attrs = ["bold"], end = "")
-			moreToAdd = input ()
-			continue
 
 		# keep showing detected faces
 		while True :

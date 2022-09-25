@@ -43,7 +43,7 @@ def updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath) :
 
 def safeLoadRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath) :
 	try :
-		faceRecognizer.load (faceRecognizerFilePath)
+		faceRecognizer.read (faceRecognizerFilePath)
 	except :
 		cprint (f"Could not load face recognizer from file `{faceRecognizerFilePath}`, creating new", "magenta", attrs = ["bold"])
 		updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)

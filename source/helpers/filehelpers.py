@@ -38,7 +38,7 @@ def getRecordOf (rollNo, recordFilePath) :
 		# not found
 		return None
 	except ValueError :
-		cprint (f"Error processing information, record file `recordFilePath` seems to be corrupted", "red", attrs = ["bold"])
+		cprint (f"Error processing information, record file `{recordFilePath}` seems to be corrupted", "red", attrs = ["bold"])
 		return None
 	finally :
 		recordFile.close ()
@@ -58,7 +58,7 @@ def eraseRecord (rollNo, recordFilePath) :
 		recordFile = open (recordFilePath, "r")
 		tempRecordFile = open (recordFilePath + ".tmp", "w")
 	except FileNotFoundError :
-		cprint (f"Error opening required files: `{recordFilePath}, `{recordFilePath}.tmp`", "red", attrs = ["bold"])
+		cprint (f"Error opening required files: `{recordFilePath}`, `{recordFilePath}.tmp`", "red", attrs = ["bold"])
 		return -1
 
 	try :
@@ -68,7 +68,7 @@ def eraseRecord (rollNo, recordFilePath) :
 			if (int (line[0]) == rollNo) :
 				continue
 			# write all other records
-			tempRecordFile.write (line[0] + line[1] + '\n')
+			tempRecordFile.write (line[0] + " " + line[1] + " " + '\n')
 	except ValueError :
 		cprint (f"Error processing roll numbers. `{recordFilePath}` seems to be corrupted", "red", attrs = ["bold"])
 	finally :
@@ -87,7 +87,7 @@ def addRecord (rollNo, studentName, recordFilePath) :
 		recordFile = open (recordFilePath, "r")
 		tempRecordFile = open (recordFilePath + ".tmp", "w")
 	except FileNotFoundError :
-		cprint (f"Error opening required files: `{recordFilePath}, `{recordFilePath}.tmp`", "red", attrs = ["bold"])
+		cprint (f"Error opening required files: `{recordFilePath}`, `{recordFilePath}.tmp`", "red", attrs = ["bold"])
 		return -1
 
 	try :
