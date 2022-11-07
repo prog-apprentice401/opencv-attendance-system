@@ -1,6 +1,3 @@
-**/faceRecognizer.bin
-**/data_10A.rec
-**/datasets
-**/tests
-**/attendance
 **/__pycache__
+**/assets/*
+!**/assets/haarcascade_frontalface_default.xml
