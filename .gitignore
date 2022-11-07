@@ -1,3 +1,3 @@
 **/__pycache__
-**/assets/*
-!**/assets/haarcascade_frontalface_default.xml
+source/assets/*
+!source/assets/haarcascade_frontalface_default.xml
