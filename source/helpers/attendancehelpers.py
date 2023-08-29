@@ -32,6 +32,8 @@ def splitAttendanceRecord (line) :
 	# start with 1 to aid in negative indexing
 	attendanceStatusLength = 1
 
+    # this is a shitty way of handing records, when i could've just used csv,
+    # but hey, i am an idiot, waddaya expect?
 	while (rollNumberLength < len (line) and line[rollNumberLength] != " ") :
 		rollNumberLength += 1
 	while (attendanceStatusLength <= len (line) and line[-attendanceStatusLength] != " ") :

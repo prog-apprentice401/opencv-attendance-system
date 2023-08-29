@@ -82,10 +82,10 @@ def main () :
 			if (key == ord (" ")) :
 				break
 
-		cv2.destroyAllWindows ()
 		
 		addRecord (rollNo, studentName, recordFilePath)
 		capturedFaces = captureFacesFromCamera (camera, imageProcessingScale, classifier, faceDetectionScale, neighbouringPixels, 20)
+		cv2.destroyAllWindows ()
 		writeFaces (capturedFaces, rollNo, dataPath)
 		
 		cprint ("Do you want to add more Students? (y/N): ", "blue", attrs = ["bold"], end = "")
@@ -95,6 +95,6 @@ def main () :
 main ()
 
 # save the newly created recognizer
-faceRecognizer = cv2.face.LBPHFaceRecognizer.create ()
+faceRecognizer = cv2.face.LBPHFaceRecognizer_create ()
 updateRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)
 

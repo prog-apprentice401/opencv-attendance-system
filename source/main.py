@@ -12,7 +12,7 @@ from globalvars import *
 
 classifier = cv2.CascadeClassifier (classifierFile)
 camera = cv2.VideoCapture (camPort)
-faceRecognizer = cv2.face.LBPHFaceRecognizer.create ()
+faceRecognizer = cv2.face.LBPHFaceRecognizer_create ()
 faceRecognizer = safeLoadRecognizer (faceRecognizer, faceRecognizerFilePath, dataPath)
 
 today = date.today ()
